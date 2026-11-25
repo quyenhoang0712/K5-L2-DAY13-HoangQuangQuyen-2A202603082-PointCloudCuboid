@@ -14,7 +14,7 @@
 - Phiên bản CVAT: 2.82.1.
 - MSSV bạn ngồi cạnh: 2A202603092.
 
-Tổng cộng 66 cuboid trên 10 frame, trong đó frame s05f33 có ít nhất với 4 cuboid do [điền lý do thực tế]. Kết quả `selfcheck` có 0/66 cuboid bị cảnh báo. Phần tự tin nhất là car, phần còn hạn chế là người đi xe máy và đi bộ.
+Tổng cộng 66 cuboid trên 10 frame, trong đó frame s05f33 có ít nhất với 5 cuboid do [điền lý do thực tế]. Kết quả `selfcheck` có 0/66 cuboid bị cảnh báo. Phần tự tin nhất là car, phần còn hạn chế là người đi xe máy và đi bộ.
 
 **Cách sử dụng CVAT:**
 
@@ -49,9 +49,9 @@ Tám frame lướt:
 
 | Vật | Frame, idx | Class | Mũi tên yaw đúng hướng? | Đáy chạm đường? | Đã kiểm Top/Side/Front + ảnh? | Kích thước trong bảng 4.3? |
 |---|---|---|---|---|---|---|
-| (a) xe con gần | s01f03, 2 | Car | 267.1°, cần đối chiếu hướng xe | Đáy -1.646 m, gần mặt đường | Cần xác nhận | Dài 5.196 m, rộng 1.780 m, cao 1.455 m; dài hơn khoảng tham chiếu sedan |
-| (b) xe tải | s01f03, 9 | Truck | 89.5°, cần đối chiếu hướng xe | Đáy -1.555 m, gần mặt đường | Cần xác nhận | Nằm trong khoảng tham chiếu xe tải nhẹ |
-| (c) xe hai bánh | s03f48, 5 | Cyclist | 272°, cần đối chiếu hướng xe | Đáy -1.323 m, cần kiểm tra lại | Cần xác nhận | Dài 1.205 m, rộng 1.043 m, cao 1.076 m; ngoài khoảng tham chiếu |
+| (a) xe con gần | s01f03, 2 | Car | 267.1°, cần đối chiếu hướng xe | Đáy -1.646 m, gần mặt đường | front | Dài 5.196 m, rộng 1.780 m, cao 1.455 m; dài hơn khoảng tham chiếu sedan |
+| (b) xe tải | s01f03, 9 | Truck | 89.5°, cần đối chiếu hướng xe | Đáy -1.555 m, gần mặt đường | top | Nằm trong khoảng tham chiếu xe tải nhẹ |
+| (c) xe hai bánh | s03f48, 5 | Cyclist | 272°, cần đối chiếu hướng xe | Đáy -1.323 m, cần kiểm tra lại | side | Dài 1.205 m, rộng 1.043 m, cao 1.076 m; ngoài khoảng tham chiếu |
 
 
 ### 4. Bốn hiện tượng chất lượng (Bước 4)
@@ -65,14 +65,22 @@ Tám frame lướt:
 
 ## 5. Số từ cuboid của tôi (Bước 5)
 
+## 5. Số từ cuboid của tôi (Bước 5)
+
 | Cuboid (frame, idx, class) | z (m) | h (m) | z đáy (m) | dist_m (m) | r (m) | yaw_deg (°) | Nhận xét |
 |---|---:|---:|---:|---:|---:|---:|---|
 | s01f03, 2, Car | -0.918 | 1.455 | -1.646 | 8.23 | 8.28 | 267.1 | Gần mặt đường |
 | s01f03, 9, Truck | -0.335 | 2.439 | -1.555 | 19.01 | 19.02 | 89.5 | Gần mặt đường |
 | s03f48, 5, Cyclist | -0.785 | 1.076 | -1.323 | 8.80 | 8.84 | 272.0 | Có dấu hiệu lơ lửng |
 
+### So sánh khoảng cách, kích thước và hướng
 
-Mật độ theo khoảng cách (4 cuboid ở các `dist_m` khác nhau):
+- Cuboid gần nhất: [đối chiếu bảng A mới].
+- Cuboid xa nhất: [đối chiếu bảng A mới].
+- Kích thước Car và Cyclist: [so sánh với bảng 4.3 và giải thích chiều ngoài khoảng].
+- Hướng xe cùng chiều và ngược chiều: [đối chiếu yaw với 270° và 90°].
+
+### Mật độ theo khoảng cách
 
 | Cuboid (frame, idx, class) | dist_m (m) | Số điểm (points_in) |
 |---|---:|---:|
@@ -81,13 +89,23 @@ Mật độ theo khoảng cách (4 cuboid ở các `dist_m` khác nhau):
 | s01f03, 3, Car | 15.7 | 541 |
 | s01f03, 4, Car | 20.8 | 378 |
 
+Nhận xét: [so sánh khoảng cách và tỷ lệ số điểm còn lại với slide bài giảng].
+
+### Kết quả tự kiểm
+
+- Tổng số cuboid: 66.
+- Số frame hoàn thành: 10/10.
+- Số cuboid có cảnh báo: 0/66.
+- Bổ sung một cuboid tại frame s05f33, tăng từ 4 lên 5 cuboid.
+- Hai cuboid đã chỉnh sửa sau preview/selfcheck: [ghi thao tác thực tế].
+- Cảnh báo giữ nguyên: Không có.
+
 ### Kiểm chéo
 
-- Người kiểm chéo: Hồ Đăng Mạnh (2A202603092).
+- MSSV người kiểm chéo: 2A202603092.
 - Thông số đối chiếu: dist_m và yaw_deg của Car tại frame s01f03, idx 2.
 - Kết quả: Cả hai thông số đều khớp với bảng A.
 - Không cần chỉnh sửa sau kiểm chéo.
-
 
 ## 6. Ý nghĩa của nhãn, cách dùng AI và điều còn chưa chắc
 
