@@ -104,4 +104,6 @@ Mật độ theo khoảng cách (4 cuboid ở các `dist_m` khác nhau):
 
 ### (c) Điều còn chưa chắc
 
-- [Ghi những khó khăn thực tế còn gặp khi xác định kích thước, hướng hoặc phần bị che khuất của vật thể.]
+- Không căn được chuẩn điểm kết thúc của vật thể bị mò.
+- khó căn chiều cao của vật thể bị mờ.
+- khó xác định được nền đất
